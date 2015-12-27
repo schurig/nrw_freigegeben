@@ -1,0 +1,19 @@
+{
+  "name": "dbnrw-freigeben-twitter-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "db_regio",
+    "fernferkehr",
+    "freigaben"
+  ],
+  "author": "Martin Schurig",
+  "license": "MIT",
+  "dependencies": {
+    "twitter": "^1.2.5"
+  }
+}

@@ -1,5 +1,6 @@
 sudo: required
 language: node_js
+cache: google-cloud-sdk
 node_js:
 - '6.9'
 services:
@@ -14,6 +15,7 @@ script:
 - echo 'tested'
 after_success:
 - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+- export KUBE_APP_NAME=nrw-freigegeben
 - export REPO=schurig/nrw_freigegeben
 - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH
   ; fi`
@@ -21,6 +23,9 @@ after_success:
 - docker tag $REPO:$COMMIT $REPO:$TAG
 - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
 - docker push $REPO
+- curl https://gist.githubusercontent.com/schurig/ddfc188bbf4c6a3f67d6a9fe9cf3c690/raw/travis_ci_gcloud_prepare.sh | sh
+- export PATH=./google-cloud-sdk/bin:$PATH
+- kubectl --kubeconfig ./kubernetes-config.json patch deployment $KUBE_APP_NAME -p '{"spec":{"template":{"spec":{"containers":[{"name":"nrw-freigegeben","image":"'$REPO':'"$COMMIT"'"}]}}}}'
 before_install:
 - openssl aes-256-cbc -K $encrypted_6e7d3f7c2fe4_key -iv $encrypted_6e7d3f7c2fe4_iv
   -in kubernetes-config.json.enc -out kubernetes-config.json -d

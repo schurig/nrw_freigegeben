@@ -5,6 +5,9 @@ node_js:
 - '6.9'
 services:
 - docker
+before_install:
+- openssl aes-256-cbc -K $encrypted_6e7d3f7c2fe4_key -iv $encrypted_6e7d3f7c2fe4_iv
+  -in kubernetes-config.json.enc -out kubernetes-config.json -d
 env:
   global:
   - secure: ZQdhm+98vkPDXaAD4BBp8gNBo0mmFkEtsYyNBL/kNODmufUSTpy/c7g3kPmqVexlJLv5Mil7Lr0HruDSYPC9F9ZO+jhMbqvITnCXRpDGFAHgR2ffI1vflVhUaLgRvwxE6X4QukjlCjJZhWTRuKB88qoivwe+vRkcHnesNCi3BCgUr3kvBRvFseRdlFJ1Er7tTmyORjjQ2JKrgprVXStqAGqU8Z4Xa3ixvCwfssfB6NVHMTk2CsnfhljdrZeZAm+QAOrBy0ZajpXyaCDTQnWwuKCgeF5ARnscSKQlOzRgEHwZPKODe8FJvsZ0H0uV437L7u4EYMEjeh+r1E3QNCvnGkMIoBvFYYd71UUbmyoIzwu7ogj8H9PenIgzAF4FeTPOb97SBaZJSDkA0A1ZrbK1Q2gHRK2lbOM/F8HDYf+AtlNeLXIKfY2Ld5rixDD+q0ABzwOoZVxLCQYmwgVwzSGaRgTMSay1CbfbkMynGx4aOR/5N8RkqR6tIs2m7+l4NWdopWLaYaABh65NnaV6nKokA4n097hS+zFzu3ihixLqfkWtftvONQFQ2X+eLcdmE09bG4XtIzT1GBr0zuHgnbS/tPeJQC8h7j/SgagyX7NCk4JYHpsJPdE5Wbi/3aqlo9lcoLbu5hl9zzeXvc+77UHITJjxx6IgkfoiS5/n7FLcSjM=
@@ -26,6 +29,3 @@ after_success:
 - curl https://gist.githubusercontent.com/schurig/ddfc188bbf4c6a3f67d6a9fe9cf3c690/raw/travis_ci_gcloud_prepare.sh | sh
 - export PATH=./google-cloud-sdk/bin:$PATH
 - kubectl --kubeconfig ./kubernetes-config.json patch deployment $KUBE_APP_NAME -p '{"spec":{"template":{"spec":{"containers":[{"name":"nrw-freigegeben","image":"'$REPO':'"$COMMIT"'"}]}}}}'
-before_install:
-- openssl aes-256-cbc -K $encrypted_6e7d3f7c2fe4_key -iv $encrypted_6e7d3f7c2fe4_iv
-  -in kubernetes-config.json.enc -out kubernetes-config.json -d

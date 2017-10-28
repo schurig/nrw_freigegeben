@@ -7,4 +7,4 @@ Twitter Bot, der freigegebene Fernverkehrszüge für den Nahverkehr verbreitet.
 
 --
 
-*~ [martin.gs](http://martin.gs)*
+*~ [martin.sh](http://martin.sh)*
